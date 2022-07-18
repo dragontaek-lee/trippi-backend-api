@@ -1,0 +1,7 @@
+node_modules/
+service-account.json
+_keys/
+.env
+.env*
+*.png
+*.zip
