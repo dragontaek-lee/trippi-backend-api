@@ -4,7 +4,8 @@
   "description": "trippi backend API",
   "scripts": {
     "start": "node src/index",
-    "start:dev": "cross-env PROJECT_ID=proj-trippi GOOGLE_APPLICATION_CREDENTIALS=./_keys/proj-trippi.json nodemon app"
+    "start:dev": "cross-env PROJECT_ID=proj-trippi GOOGLE_APPLICATION_CREDENTIALS=./_keys/proj-trippi.json nodemon app",
+    "build": "gcloud builds submit --config cloudbuild.yaml . --project=proj-trippi"
   },
   "dependencies": {
     "axios": "^0.25.0",

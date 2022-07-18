@@ -1,0 +1,33 @@
+steps:
+  # Pull cached image
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'pull build push'
+    entrypoint: 'sh'
+    args:
+      - '-c'
+      - |
+        export DOCKER_BUILDKIT=1 && \
+        docker pull asia.gcr.io/$PROJECT_ID/trippi-api:latest || exit 0 && \
+        docker build -t asia.gcr.io/$PROJECT_ID/trippi-api --cache-from asia.gcr.io/$PROJECT_ID/trippi-api:latest --build-arg BUILDKIT_INLINE_CACHE=1 . && \
+        docker push asia.gcr.io/$PROJECT_ID/trippi-api:latest
+
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine'
+    id: 'deploy'
+    entrypoint: gcloud
+    args:
+      [
+        'run', 'deploy', 'trippi-api',
+        '--project', '$PROJECT_ID',
+        '--platform', 'managed',
+        '--region', 'asia-northeast3',
+        '--image', 'asia.gcr.io/$PROJECT_ID/trippi-api:latest',
+        '--port', '8080',
+        '--cpu', '4',
+        '--memory', '8Gi',
+        '--min-instances', '0',
+        '--max-instances', '250',
+        '--concurrency', '10',
+        '--allow-unauthenticated',
+        '--no-traffic'
+      ]
