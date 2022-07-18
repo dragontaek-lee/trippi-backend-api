@@ -1,5 +1,6 @@
 'use strict';
 
+require('./firebase');
 const app = require('./express');
 
 const PORT = process.env.PORT || 20200;

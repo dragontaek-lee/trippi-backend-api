@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "trippi backend API",
   "scripts": {
-    "start": "node src/index"
+    "start": "node src/index",
+    "start:dev": "cross-env PROJECT_ID=proj-trippi GOOGLE_APPLICATION_CREDENTIALS=./_keys/proj-trippi.json nodemon app"
   },
   "dependencies": {
     "axios": "^0.25.0",
