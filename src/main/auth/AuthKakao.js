@@ -4,8 +4,6 @@ const db = admin.firestore();
 const validator = require('./AuthValidator');
 const TrippiException = require('../../Exceptions/TrippiExecption');
 
-const PROJECT_ID = process.env.PROJECT_ID;
-
 axios.interceptors.response.use(
     (response) => {
         delete response.config;
@@ -87,7 +85,6 @@ function makeUserSchema(kakaoprofile, now) {
     // normalize string
     schema.name = schema.name.normalize();
     schema.email = schema.email.normalize();
-    schema.phone = formatTelNumber(schema.phone);
 
     if (schema.name === '') schema.name = schema.email;
 
@@ -95,17 +92,20 @@ function makeUserSchema(kakaoprofile, now) {
 }
 
 async function createUser(params,schema){
+    let uid;
     while (true) {
         let latestUID = await db
             .collection('users')
+            .where('level','==',1)
             .orderBy(admin.firestore.FieldPath.documentId(), 'desc')
             .limit(1)
             .get();
 
         let splitUID = latestUID.docs[0].id.split('_');
         let newNum = parseInt(splitUID[1]) + 1;
+        newNum = String(newNum).padStart(8,'0');
 
-        let uid = `trippi_${newNum}`;
+        uid = `trippi_${newNum}`;
         try {
             await db.collection('users').doc(uid).create(schema);
             console.log(`Document created`);
@@ -147,12 +147,11 @@ exports.authKakao = async (req, res) => {
     let filtered = vali.value;
 
     let kakaoProfile, uid, params;
-    console.log(uid)
     try {
         kakaoProfile = await getKakaoProfile(filtered.accessToken);
 
         params = makeAuthParams(kakaoProfile);
-        console.log(uid)
+
         uid = await chkExist(kakaoProfile.id);
 
         if (!uid) {
