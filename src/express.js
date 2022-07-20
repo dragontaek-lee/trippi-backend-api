@@ -28,8 +28,12 @@ app.use((error, req, res, next) => {
 });
 app.use(express.urlencoded({ extended: true }));
 
-console.log('API initialized successfully.');
+/**
+ * Load route
+ * ---------------------------------------------------------------------------*/
+app.use('/auth', require('./main/auth/auth.controller'));
 
+console.log('API initialized successfully.');
 /**
  * Final error handler
  * ---------------------------------------------------------------------------*/
