@@ -142,9 +142,7 @@ async function updateUser(uid, params) {
 }
 
 exports.authKakao = async (req, res) => {
-    let vali = validator.kakao.validate(req.body);
-    if (vali.error !== undefined) return res.status(400).send(vali.error);
-    let filtered = vali.value;
+    let filtered = req.body
 
     let kakaoProfile, uid, params;
     try {
