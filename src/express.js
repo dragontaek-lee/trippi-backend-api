@@ -4,7 +4,8 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const errorHandler = require('./errorHandler');
-const dotenvPrefix = 'production'
+const gateAuth = require('./Gates/gateAuth');
+const dotenvPrefix = 'production';
 
 require('dotenv').config({ path: `${__dirname}/../.env.${dotenvPrefix}` })
 
@@ -28,10 +29,12 @@ app.use((error, req, res, next) => {
 });
 app.use(express.urlencoded({ extended: true }));
 
+app.use(gateAuth)
 /**
  * Load route
  * ---------------------------------------------------------------------------*/
 app.use('/auth', require('./main/auth/auth.controller'));
+app.use('/region', require('./main/regions/region.controller'));
 
 console.log('API initialized successfully.');
 /**

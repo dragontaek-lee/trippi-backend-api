@@ -1,4 +1,4 @@
-const { default: axios } = require('axios');
+const axios = require('axios');
 const admin = require('firebase-admin');
 const db = admin.firestore();
 const validator = require('./AuthValidator');
@@ -24,8 +24,8 @@ async function getKakaoProfile(accessToken){
 
     try {
         profile = await axios.get('https://kapi.kakao.com/v2/user/me', {
-            headers:{Authorization: `Bearer ${accessToken}`}
-        })   
+            headers: {Authorization: `Bearer ${accessToken}`}
+        });   
     } catch(e) {
         console.log(e)
         throw new TrippiException(400, 'kakao-server-error')
@@ -146,6 +146,8 @@ exports.authKakao = async (req, res) => {
 
     let kakaoProfile, uid, params;
     try {
+        console.log('보자')
+        console.log(filtered.accessToken)
         kakaoProfile = await getKakaoProfile(filtered.accessToken);
 
         params = makeAuthParams(kakaoProfile);
