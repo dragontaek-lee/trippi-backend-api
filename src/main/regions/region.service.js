@@ -8,14 +8,9 @@ const { firestore } = require('firebase-admin');
 function makeRegionSchema(uid, body, now) {
     const schema = {
         owner: uid,
-        name: body.name,
         geoPoint: new firestore.GeoPoint(body.latitude, body.longitude),
-        startDate: body.startDate,
-        endDate: body.endDate,
         timestamp: now,
     };
-
-    schema.name = schema.name.normalize();
 
     return schema;  
 }
@@ -23,19 +18,19 @@ function makeRegionSchema(uid, body, now) {
 exports.regionList = async (req,res) => {
     const regionData = await db
         .collection('regions')
-        .select('name','geopoint')
+        .select('geoPoint')
         .where('owner', '==', req.uid)
         .get()
 
     let regionList = [];
     for (let region of regionData.docs) {
-        let regionId = region.id;
         region = region.data();
 
         let regionSet = {
-            "_id": regionId,
-            "name": region.name,
-            "geoPoint": region.geopoint,
+            "lat": region.geoPoint._latitude,
+            "lng": region.geoPoint._longitude,
+            "size": 15,
+            "color": ['red', 'white', 'blue', 'green'][Math.round(Math.random() * 3)]
         }
         regionList.push(regionSet)
     }
