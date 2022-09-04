@@ -24,13 +24,13 @@ exports.regionList = async (req,res) => {
 
     let regionList = [];
     for (let region of regionData.docs) {
-        region = region.data();
+        let regionData = region.data();
 
         let regionSet = {
-            "lat": region.geoPoint._latitude,
-            "lng": region.geoPoint._longitude,
-            "size": 15,
-            "color": ['red', 'white', 'blue', 'green'][Math.round(Math.random() * 3)]
+            "_id": region.id,
+            "lat": regionData.geoPoint._latitude,
+            "lng": regionData.geoPoint._longitude,
+            "size": 15
         }
         regionList.push(regionSet)
     }
