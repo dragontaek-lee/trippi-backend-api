@@ -18,7 +18,7 @@ function makeRegionSchema(uid, body, now) {
 exports.regionList = async (req,res) => {
     const regionData = await db
         .collection('regions')
-        .select('geoPoint')
+        .select('geoPoint','publicId')
         .where('owner', '==', req.uid)
         .get()
 
@@ -27,7 +27,7 @@ exports.regionList = async (req,res) => {
         let regionData = region.data();
 
         let regionSet = {
-            "_id": region.id,
+            "_id": regionData.publicId,
             "lat": regionData.geoPoint._latitude,
             "lng": regionData.geoPoint._longitude,
             "size": 15
