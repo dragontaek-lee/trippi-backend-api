@@ -7,6 +7,7 @@ const { firestore } = require('firebase-admin');
 
 function makeRegionSchema(uid, body, now) {
     const schema = {
+        title: "",
         owner: uid,
         geoPoint: new firestore.GeoPoint(body.latitude, body.longitude),
         timestamp: now,
