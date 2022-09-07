@@ -5,3 +5,6 @@ exports.addRegion = Joi.object({
     longitude: Joi.number().required()
 })
 
+exports.getRegionImg = Joi.object({
+    publicId: Joi.number().required()
+})

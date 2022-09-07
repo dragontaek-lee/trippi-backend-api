@@ -7,7 +7,8 @@ const regionController = require('./region.service');
 
 router.get('/', regionController.regionList);
 
-router.post('/',validator.body(schema.addRegion),regionController.addRegion);
+router.post('/', validator.body(schema.addRegion), regionController.addRegion);
 
+router.get('/image', validator.query(schema.getRegionImg), regionController.regionImgList)
 
 module.exports = router;
