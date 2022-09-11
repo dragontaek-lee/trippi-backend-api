@@ -156,16 +156,35 @@ exports.addRegion = async (req,res) => {
 }
 
 exports.regionImgList = async (req,res) => {
-    const regionImgData = await db
+    let regionImgData = db
         .collection('uploads')
         .where('regionId','==',req.query.publicId)
         .where('owner', '==', req.uid)
-        .get()
+
+    regionImgData = regionImgData.orderBy('timestamp', 'desc');
+
+    if (req.query.offset !== '') {
+        let docPointer = await db
+            .collection('uploads')
+            .doc(req.query.offset)
+            .get();
+        
+        regionImgData = regionImgData.startAfter(docPointer).limit(9);
+    } else {
+        regionImgData = regionImgData.limit(9);
+    }
+
+    regionImgData = await regionImgData.get();
 
     let imgList = [];
     for (let regionImg of regionImgData.docs) {
+        let regionId = regionImg.id;
         let data = regionImg.data();
-        imgList.push(data.url)
+        imgList.push({
+            "_id": regionId,
+            "caption": data.title,
+            "image": data.url
+        })
     }
 
     return res.send(imgList);

@@ -35,6 +35,7 @@ app.use(gateAuth)
  * ---------------------------------------------------------------------------*/
 app.use('/auth', require('./main/auth/auth.controller'));
 app.use('/region', require('./main/regions/region.controller'));
+app.use('/upload', require('./main/upload/upload.controller'));
 
 console.log('API initialized successfully.');
 /**

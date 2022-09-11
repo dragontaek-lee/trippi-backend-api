@@ -6,5 +6,6 @@ exports.addRegion = Joi.object({
 })
 
 exports.getRegionImg = Joi.object({
-    publicId: Joi.number().required()
+    publicId: Joi.number().required(),
+    offset: Joi.string().normalize().allow('').required()
 })
