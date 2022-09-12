@@ -127,11 +127,20 @@ async function createUser(params,schema){
 }
 
 
-async function updateUser(uid, params) {
+async function updateUser(uid, params, now) {
     console.log(`updateUser ==> uid=${uid}, params=${JSON.stringify(params)}`);
 
     try {
         await admin.auth().updateUser(uid, params);
+        if (params.photoURL !== "") {
+            await db
+                .collection('users')
+                .doc(uid)
+                .update({
+                    profile: params.photoURL,
+                    editDate: now
+                })
+        }
         return true;
     } catch (e) {
         console.error(`errorUpdateUser ==> ${JSON.stringify(e)}`);
@@ -158,7 +167,7 @@ exports.authKakao = async (req, res) => {
 
             console.log(`[${uid}|${req.now}] ${req.path} ==> user create`);
         } else {
-            await updateUser(uid, params);
+            await updateUser(uid, params, req.now);
             console.log(`[${uid}|${req.now}] ${req.path} ==> user update`);
         }
 

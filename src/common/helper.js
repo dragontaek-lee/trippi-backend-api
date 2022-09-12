@@ -6,7 +6,6 @@ const TrippiException = require('../Exceptions/TrippiExecption');
  * Is valid seller
  */
 exports.isValidUser = async (uid) => {
-    console.log(uid)
     let userData = await this.getSingleDoc(
         'users',
         ['state','level'],
