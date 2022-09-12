@@ -146,8 +146,6 @@ exports.authKakao = async (req, res) => {
 
     let kakaoProfile, uid, params;
     try {
-        console.log('보자')
-        console.log(filtered.accessToken)
         kakaoProfile = await getKakaoProfile(filtered.accessToken);
 
         params = makeAuthParams(kakaoProfile);
