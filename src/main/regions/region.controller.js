@@ -9,6 +9,8 @@ router.get('/', regionController.regionList);
 
 router.post('/', validator.body(schema.addRegion), regionController.addRegion);
 
+router.delete('/', validator.body(schema.deleteRegion), regionController.deleteRegion);
+
 router.get('/image', validator.query(schema.getRegionImg), regionController.regionImgList)
 
 module.exports = router;

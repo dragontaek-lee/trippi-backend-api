@@ -3,7 +3,7 @@ const db = admin.firestore();
 const TrippiException = require('../Exceptions/TrippiExecption');
 
 /**
- * Is valid seller
+ * Is valid user
  */
 exports.isValidUser = async (uid) => {
     let userData = await this.getSingleDoc(

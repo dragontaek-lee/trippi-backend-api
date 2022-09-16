@@ -22,6 +22,11 @@ axios.interceptors.response.use(
     }
 );
 
+async function removeCover(img) {
+    if ((await bucket.file(img).exists())[0] === true)
+        await bucket.file(img).delete();
+}
+
 function isInteger(str) {
     if (typeof str !== 'string') {
       return false;
@@ -188,4 +193,30 @@ exports.regionImgList = async (req,res) => {
     }
 
     return res.send(imgList);
+}
+
+exports.deleteRegion = async (req,res) => {
+    await helper.isValidUser(req.uid);
+
+    const region = await db
+        .collection('regions')
+        .where('publicId', '==', req.body.publicId)
+        .where('owner', '==', req.uid)
+        .get()
+
+    const uploadList = await db
+        .collection('uploads')
+        .where('publicId', '==', req.body.publicId)
+        .where('owner', '==', req.uid)
+        .get()
+
+    for (let upload of uploadList.docs) {
+        let uploadData = upload.data();
+        await removeCover(uploadData.url);
+        await upload.ref.delete();
+    }
+
+    const regionId = await region.docs[0].ref.delete();
+
+    return res.send(regionId)
 }
