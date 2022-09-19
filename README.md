@@ -11,11 +11,15 @@ Pages have been added. Checkout [here](https://www.trippi.ml)
 ## Built with
 
 - JavaScript, nodeJS (express)
-- GCP : Cloud Run, Cloud Storage, Firestore, Cloud Build, Container Registry, Google maps platform
+- GCP : Cloud Run, Cloud Storage, Firebase, Cloud Build, Container Registry, Google maps platform
+
+## Architecture Diagram
+
+![Architecture Diagram](https://user-images.githubusercontent.com/54241139/191095426-9d7236f6-6f8b-4ab4-bb3b-e85cbf5b9947.png)
 
 ## Simple Build & Deploy  
 
-![build](https://user-images.githubusercontent.com/54241139/190874158-708fcc1e-cf5b-40b1-91eb-83cc1b1c2590.PNG)
+![simple CD](https://user-images.githubusercontent.com/54241139/191095162-278c8731-a1a6-414d-9cbf-923986b4d0ff.png)
 
 
 
