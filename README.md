@@ -4,7 +4,7 @@
 
 # Usage
 
-Pages have been added. Checkout [here](https://www.trippi.ml)  
+Pages have been added. Checkout [here](https://proj-trippi.du.r.appspot.com)  
 
 # About  
 
